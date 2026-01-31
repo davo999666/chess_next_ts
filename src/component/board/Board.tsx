@@ -7,12 +7,9 @@ import PiecePools from "@/component/PiecePools";
 import { useHistory } from "@/context/HistoryContext";
 import DragLayer from "@/component/board/DragLayer";
 import BoardGrid from "@/component/board/BoardGrid";
+import {BoardHandle, useBoardHandlers} from "@/hooks/useBoardHandlers";
 // hello
-export type BoardHandle = {
-    resetBoard: () => void;
-    moveBack: () => void;
-    flipBoard: () => void;
-};
+
 
 type BoardProps = {
     board?: (PieceLetter | null)[][];
@@ -26,56 +23,16 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
     const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null);
     const [dragOffset, setDragOffset] = useState<{ x: number; y: number } | null>(null);
     const [selectedPoolPiece, setSelectedPoolPiece] = useState<PieceLetter | null>(null);
-
     const [boardFlipped, setBoardFlipped] = useState(flipped);
     const boardRef = useRef<HTMLDivElement>(null);
     const { addMove, moveBack: moveBackHistory, clearHistory, history } = useHistory();
-
+    useBoardHandlers({ref, history, setCurrentBoard, clearHistory, moveBackHistory, setSelectedPoolPiece, setBoardFlipped,});
     const displayedBoard = boardFlipped ? flipBoardView(currentBoard) : currentBoard;
 
     const toRealPos = (r: number, c: number): [number, number] =>
         boardFlipped ? [7 - r, 7 - c] : [r, c];
 
 
-
-    // ======================
-    // EXPOSE HANDLERS
-    // ======================
-    useImperativeHandle(ref, () => ({
-        resetBoard: () => {
-            setCurrentBoard(Array(8).fill(null).map(() => Array(8).fill(null)));
-            clearHistory();
-            setSelectedPoolPiece(null);
-            // setSelectedBoardPiece(null);
-        },
-        moveBack: () => {
-            if (!history.length) return;
-            const lastMove = history[history.length - 1];
-
-            setCurrentBoard(prev => {
-                const newBoard = prev.map(r => [...r]);
-                const { from, to, pieceFrom, captured } = lastMove;
-
-                if (to !== "removed") {
-                    const [tr, tc] = to as [number, number];
-                    newBoard[tr][tc] = captured || null;
-                }
-                if (from !== "pool") {
-                    const [fr, fc] = from as [number, number];
-                    newBoard[fr][fc] = pieceFrom;
-                }
-
-                return newBoard;
-            });
-
-            moveBackHistory();
-        },
-        flipBoard: () => setBoardFlipped(prev => !prev),
-    }));
-
-    // ======================
-    // BOARD DRAG HANDLERS
-    // ======================
     const handlePointerDownBoard = (r: number, c: number, piece: PieceLetter) => (e: React.PointerEvent) => {
         e.preventDefault();
         setDraggedPiece(piece);

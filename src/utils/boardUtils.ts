@@ -3,8 +3,6 @@
 // Type for a single piece or empty square
 import {PieceLetter} from "@/utils/pieceMap";
 
-export type Piece = string | null;
-
 // Type for the board: 8x8 array
 export type Board = (PieceLetter | null)[][];
 

@@ -1,8 +1,9 @@
 "use client";
 import React, { useRef } from "react";
-import Board, { BoardHandle } from "@/component/board/Board";
+import Board from "@/component/board/Board";
 import Sidebar from "@/component/Sidebar";
 import SidebarRight from "@/component/SidebarRight";
+import {BoardHandle} from "@/hooks/useBoardHandlers";
 
 export default function Home() {
   const boardRef = useRef<BoardHandle>(null);
