@@ -98,12 +98,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
         });
 
         if (captured !== piece || fromPos === "pool") {
-            addMove({
-                pieceFrom: piece,
-                from,
-                to: [realR, realC],
-                captured,
-            });
+            addMove({pieceFrom: piece, from, to: [realR, realC], captured,});
         }
 
         setDraggedPiece(null);
@@ -129,12 +124,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
         });
 
         // ✅ Move addMove AFTER state update
-        addMove({
-            pieceFrom: selectedPoolPiece,
-            from: "pool",
-            to: [r, c],
-            captured,
-        });
+        addMove({pieceFrom: selectedPoolPiece, from: "pool", to: [r, c], captured,});
     };
 
     return (

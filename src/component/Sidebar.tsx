@@ -2,7 +2,7 @@
 import React from "react";
 import { BoardHandle } from "@/hooks/useBoardHandlers";
 
-type SidebarProps = { boardRef: React.RefObject<BoardHandle | null>; };
+type SidebarProps = { boardRef: React.RefObject<BoardHandle | null> };
 
 const Sidebar: React.FC<SidebarProps> = ({ boardRef }) => {
     const buttons = [
@@ -13,7 +13,7 @@ const Sidebar: React.FC<SidebarProps> = ({ boardRef }) => {
     ];
 
     return (
-        <div className="w-full h-[40dvh] md:w-full md:h-screen bg-[#1e1e2f] p-1 pt-3 text-white flex flex-col shadow-lg text-center rounded-lg">
+        <div className="w-full h-[40dvh] md:w-full md:h-screen bg-[#1e1e2f] p-2 pt-3 text-white flex flex-col shadow-lg text-center rounded-lg">
             <div className="flex flex-col gap-3">
                 {buttons.map((btn) => (
                     <button
@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ boardRef }) => {
               bg-indigo-600 text-white font-medium rounded-lg
               shadow-md
               transition transform duration-150
-              hover:bg-indigo-500
+              hover:scale-105 hover:bg-indigo-500
               active:scale-95 active:bg-indigo-700
             "
                     >
