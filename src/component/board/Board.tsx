@@ -7,7 +7,7 @@ import PiecePools from "@/component/PiecePools";
 import { useHistory } from "@/context/HistoryContext";
 import DragLayer from "@/component/board/DragLayer";
 import BoardGrid from "@/component/board/BoardGrid";
-
+// hello
 export type BoardHandle = {
     resetBoard: () => void;
     moveBack: () => void;
