@@ -9,12 +9,12 @@ export default function Home() {
   const boardRef = useRef<BoardHandle>(null);
 
   return (
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen flex-col md:flex-row">
         {/* Left sidebar */}
         <Sidebar boardRef={boardRef} />
 
         {/* Main board */}
-        <main className="flex-1 p-4 flex justify-center items-start">
+        <main className="flex-1 flex justify-center items-start">
           <Board ref={boardRef} />
         </main>
 

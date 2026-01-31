@@ -14,7 +14,8 @@ const DragLayer: React.FC<Props> = ({ piece, x, y }) => {
             className="absolute pointer-events-none"
             style={{ left: x, top: y }}
         >
-            <PieceImage piece={piece} />
+            <PieceImage piece={piece}  />
+
         </div>
     );
 };

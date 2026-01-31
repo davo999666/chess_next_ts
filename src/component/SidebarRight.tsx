@@ -14,9 +14,9 @@ const SidebarRight = () => {
     };
 
     return (
-        <div className="w-full h-screen bg-[#1e1e2f] p-1 text-white flex flex-col shadow-lg">
+        <div className="w-full h-[40dvh] md:w-full md:h-screen bg-[#1e1e2f] p-1 pt-3 text-white flex flex-col rounded-lg">
             {/*History*/}
-            <div className="w-full h-[20vw] bg-[#1e1e2f] text-white flex flex-col shadow-lg">
+            <div className="w-full h-[30vw] md:h-[20vw] bg-[#1e1e2f] text-white flex flex-col rounded-lg">
                 <div className="flex-1 bg-gray-100 text-black rounded shadow overflow-y-auto p-2">
                     <h3 className="font-bold mb-2 text-lg text-center">History</h3>
                     <ul className="text-sm space-y-1">

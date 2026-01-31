@@ -55,9 +55,7 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                                 className="absolute w-full h-full flex items-center justify-center"
                                 style={{ top: 0, left: 0 }}
                                 onClick={() => handleClickSquare(realR, realC)}
-                                onPointerDown={
-                                    piece ? handlePointerDownBoard(realR, realC, piece) : undefined
-                                }
+                                onPointerDown={piece ? handlePointerDownBoard(realR, realC, piece) : undefined}
                             >
                                 {!isFrom && piece && <PieceImage piece={piece} />}
                             </div>

@@ -1,14 +1,12 @@
 "use client";
-import React, {useState, useRef, useImperativeHandle, forwardRef,} from "react";
-import { initialBoard, flipBoardView } from "@/utils/boardUtils";
-import { PieceLetter } from "@/utils/pieceMap";
-import { boardSize } from "@/utils/classNameSize";
+import React, {forwardRef, useRef, useState,} from "react";
+import {flipBoardView, initialBoard} from "@/utils/boardUtils";
+import {PieceLetter} from "@/utils/pieceMap";
+import {boardSize} from "@/utils/classNameSize";
 import PiecePools from "@/component/PiecePools";
-import { useHistory } from "@/context/HistoryContext";
-import DragLayer from "@/component/board/DragLayer";
+import {useHistory} from "@/context/HistoryContext";
 import BoardGrid from "@/component/board/BoardGrid";
 import {BoardHandle, useBoardHandlers} from "@/hooks/useBoardHandlers";
-// hello
 
 
 type BoardProps = {
@@ -99,7 +97,14 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
             return newBoard;
         });
 
-        addMove({ pieceFrom: piece, from, to: [realR, realC], captured });
+        if (captured !== piece || fromPos === "pool") {
+            addMove({
+                pieceFrom: piece,
+                from,
+                to: [realR, realC],
+                captured,
+            });
+        }
 
         setDraggedPiece(null);
         setFromPos(null);
@@ -117,16 +122,8 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
 
         setCurrentBoard((prev) => {
             const newBoard = prev.map(row => [...row]);
-            const currentPiece = newBoard[r][c];
-
-            captured = currentPiece;
-
-            if (currentPiece === selectedPoolPiece) {
-                newBoard[r][c] = null; // remove piece if same
-                // setSelectedPoolPiece(null); // clear selection
-            } else {
-                newBoard[r][c] = selectedPoolPiece; // place piece
-            }
+            captured = newBoard[r][c];
+            newBoard[r][c] = selectedPoolPiece; // place piece
 
             return newBoard;
         });
@@ -141,7 +138,8 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
     };
 
     return (
-        <div className="flex flex-row gap-4 p-2">
+        <div className="w-full h-full flex flex-row gap-4">
+            <div className="flex flex-row border items-center">
             <div
                 ref={boardRef}
                 className={`relative grid grid-cols-8 grid-rows-8 ${boardSize}`}
@@ -159,13 +157,10 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
                     handleClickSquare={handleClickSquare}
                     handlePointerDownBoard={handlePointerDownBoard}
                 />
-
-                {draggedPiece && dragPos && (
-                    <DragLayer piece={draggedPiece} x={dragPos.x} y={dragPos.y} />
-                )}
             </div>
 
             <PiecePools selectedPoolPiece={selectedPoolPiece} onSelectPiece={setSelectedPoolPiece}/>
+            </div>
         </div>
     );
 });
