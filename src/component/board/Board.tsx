@@ -94,7 +94,6 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
 
             // store captured piece before placing new piece
             captured = newBoard[realR][realC] || null;
-
             // place piece
             newBoard[realR][realC] = piece;
             return newBoard;
@@ -118,13 +117,22 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
 // ======================
     const handleClickSquare = (r: number, c: number) => {
         if (!selectedPoolPiece) return;
-        if(currentBoard[r][c] === selectedPoolPiece)return;
+        if (currentBoard[r][c] === selectedPoolPiece) return;
+
+        const captured = currentBoard[r][c] || null; // read BEFORE setState
+
         setCurrentBoard(prev => {
             const newBoard = prev.map(row => [...row]);
             newBoard[r][c] = selectedPoolPiece;
             return newBoard;
         });
-        addMove({ pieceFrom: selectedPoolPiece, from: "pool" as const, to: [r, c]});
+
+        addMove({
+            pieceFrom: selectedPoolPiece,
+            from: "pool",
+            to: [r, c],
+            captured
+        });
     };
 
     return (
