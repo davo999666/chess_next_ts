@@ -1,5 +1,5 @@
 "use client";
-import React, {forwardRef, useRef, useState,} from "react";
+import React, {forwardRef, useEffect, useRef, useState,} from "react";
 import {flipBoardView, initialBoard} from "@/utils/boardUtils";
 import {PieceLetter} from "@/utils/pieceMap";
 import {boardSize} from "@/utils/classNameSize";
@@ -89,16 +89,22 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
 
         setCurrentBoard(prev => {
             const newBoard = prev.map(row => [...row]);
-            if (fromPos && fromPos !== "pool") {
-                newBoard[fromPos[0]][fromPos[1]] = null;
-            }
+            // remove piece from old position if not pool
+            if (fromPos && fromPos !== "pool") newBoard[fromPos[0]][fromPos[1]] = null;
+
+            // store captured piece before placing new piece
             captured = newBoard[realR][realC] || null;
+
+            // place piece
             newBoard[realR][realC] = piece;
             return newBoard;
         });
 
-        if (captured !== piece || fromPos === "pool") {
-            addMove({pieceFrom: piece, from, to: [realR, realC], captured,});
+        // Only add move if position changed or captured something
+        const isMoveValid = from === "pool" || from[0] !== realR || from[1] !== realC || captured;
+
+        if (isMoveValid) {
+            addMove({ pieceFrom: piece, from, to: [realR, realC], captured });
         }
 
         setDraggedPiece(null);
@@ -107,29 +113,23 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
         setDragOffset(null);
     };
 
-    // ======================
-    // CLICK TO PLACE POOL PIECE
-    // ======================
+// ======================
+// CLICK TO PLACE POOL PIECE
+// ======================
     const handleClickSquare = (r: number, c: number) => {
         if (!selectedPoolPiece) return;
-
-        let captured: PieceLetter | null = null;
-
-        setCurrentBoard((prev) => {
+        if(currentBoard[r][c] === selectedPoolPiece)return;
+        setCurrentBoard(prev => {
             const newBoard = prev.map(row => [...row]);
-            captured = newBoard[r][c];
-            newBoard[r][c] = selectedPoolPiece; // place piece
-
+            newBoard[r][c] = selectedPoolPiece;
             return newBoard;
         });
-
-        // ✅ Move addMove AFTER state update
-        addMove({pieceFrom: selectedPoolPiece, from: "pool", to: [r, c], captured,});
+        addMove({ pieceFrom: selectedPoolPiece, from: "pool" as const, to: [r, c]});
     };
 
     return (
-        <div className="w-full h-full flex flex-row gap-4">
-            <div className="flex flex-row border items-center">
+        <div className="w-full h-full flex flex-row gap-4 bg-blue-100">
+            <div className="flex flex-row items-center">
             <div
                 ref={boardRef}
                 className={`relative grid grid-cols-8 grid-rows-8 ${boardSize}`}
