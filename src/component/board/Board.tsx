@@ -1,12 +1,12 @@
 "use client";
 import React, {useState, useRef, useImperativeHandle, forwardRef,} from "react";
-import { initialBoard, flipBoardView, letters, numbers } from "@/utils/boardUtils";
+import { initialBoard, flipBoardView } from "@/utils/boardUtils";
 import { PieceLetter } from "@/utils/pieceMap";
 import { boardSize } from "@/utils/classNameSize";
-import PieceImage from "@/component/PieceImage";
 import PiecePools from "@/component/PiecePools";
 import { useHistory } from "@/context/HistoryContext";
-import DragLayer from "@/component/DragLayer";
+import DragLayer from "@/component/board/DragLayer";
+import BoardGrid from "@/component/board/BoardGrid";
 
 export type BoardHandle = {
     resetBoard: () => void;
@@ -35,6 +35,8 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
 
     const toRealPos = (r: number, c: number): [number, number] =>
         boardFlipped ? [7 - r, 7 - c] : [r, c];
+
+
 
     // ======================
     // EXPOSE HANDLERS
@@ -173,12 +175,12 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
         });
 
         // ✅ Move addMove AFTER state update
-        // addMove({
-        //     pieceFrom: selectedPoolPiece,
-        //     from: "pool",
-        //     to: [r, c],
-        //     captured,
-        // });
+        addMove({
+            pieceFrom: selectedPoolPiece,
+            from: "pool",
+            to: [r, c],
+            captured,
+        });
     };
 
     return (
@@ -190,49 +192,16 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
                 onPointerUp={handlePointerUp}
                 style={{ touchAction: "none" }}
             >
-                {displayedBoard.map((row, r) =>
-                    row.map((piece, c) => {
-                        const isDark = (r + c) % 2 === 1;
-                        const [realR, realC] = toRealPos(r, c);
-
-                        const isFrom =
-                            draggedPiece &&
-                            dragPos &&
-                            fromPos &&
-                            fromPos !== "pool" &&
-                            fromPos[0] === realR &&
-                            fromPos[1] === realC;
-
-                        return (
-                            <div
-                                key={`${r}-${c}`}
-                                className={`relative flex items-center justify-center w-full h-full ${
-                                    isDark ? "bg-[#b58863]" : "bg-[#f0d9b5]"
-                                }`}
-                            >
-                                <div
-                                    className="absolute w-full h-full flex items-center justify-center"
-                                    style={{ top: 0, left: 0 }}
-                                    onClick={() => handleClickSquare(realR, realC)}
-                                    onPointerDown={
-                                        piece && !selectedPoolPiece
-                                            ? handlePointerDownBoard(realR, realC, piece)
-                                            : undefined
-                                    }
-                                >
-                                    {!isFrom && piece && <PieceImage piece={piece} />}
-                                </div>
-
-                                {r === 7 && (
-                                    <span className="absolute bottom-1 right-1 text-black font-bold text-lg">{letters[c]}</span>
-                                )}
-                                {c === 0 && (
-                                    <span className="absolute left-1 top-1 text-black font-bold text-lg">{numbers[r]}</span>
-                                )}
-                            </div>
-                        );
-                    })
-                )}
+                <BoardGrid
+                    displayedBoard={displayedBoard}
+                    draggedPiece={draggedPiece}
+                    dragPos={dragPos}
+                    fromPos={fromPos}
+                    boardFlipped={boardFlipped}
+                    toRealPos={toRealPos}
+                    handleClickSquare={handleClickSquare}
+                    handlePointerDownBoard={handlePointerDownBoard}
+                />
 
                 {draggedPiece && dragPos && (
                     <DragLayer piece={draggedPiece} x={dragPos.x} y={dragPos.y} />

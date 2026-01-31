@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef } from "react";
-import Board, { BoardHandle } from "@/component/Board";
+import Board, { BoardHandle } from "@/component/board/Board";
 import Sidebar from "@/component/Sidebar";
 import SidebarRight from "@/component/SidebarRight";
 
