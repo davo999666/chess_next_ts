@@ -12,7 +12,7 @@ const SidebarRight = () => {
         const [r, c] = pos;
         return `${letters[c]}${numbers[r]}`;
     };
-
+   console.log(history)
     return (
         <div className="w-full h-[40dvh] md:w-full md:h-screen bg-[#1e1e2f] p-1 pt-3 text-white flex flex-col rounded-lg">
             {/*History*/}
@@ -22,8 +22,13 @@ const SidebarRight = () => {
                     <ul className="text-sm space-y-1">
                         {history.map((move, i) => (
                             <li key={i}>
-                                {i + 1}. {move.pieceFrom} {posToChess(move.from)} → {posToChess(move.to)}{" "}
-                                {move.captured ? `x${move.captured}` : ""}
+                                {i + 1}.{" "}
+                                {move.pieceFrom.toUpperCase() !== "P"
+                                    ? move.pieceFrom.toUpperCase()
+                                    : ""}
+                                {posToChess(move.from).toLowerCase()}
+                                {move.captured ? " x " : " → "}
+                                {posToChess(move.to).toLowerCase()}
                             </li>
                         ))}
                     </ul>

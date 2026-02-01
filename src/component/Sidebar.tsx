@@ -7,9 +7,9 @@ type SidebarProps = { boardRef: React.RefObject<BoardHandle | null> };
 const Sidebar: React.FC<SidebarProps> = ({ boardRef }) => {
     const buttons = [
         { label: "Move Back", action: () => boardRef.current?.moveBack() },
-        { label: "Flip Board", action: () => boardRef.current?.flipBoard() },
+        { label: "Turn Board", action: () => boardRef.current?.flipBoard() },
         { label: "Clear Board", action: () => boardRef.current?.resetBoard() },
-        { label: "Get Board", action: () => boardRef.current?.getBoard?.() },
+        { label: "Start", action: () => boardRef.current?.getBoard?.() },
     ];
 
     return (

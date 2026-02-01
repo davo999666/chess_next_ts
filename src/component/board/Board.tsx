@@ -85,25 +85,50 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
         const piece = draggedPiece;
         const from = fromPos || "pool";
 
-        let captured: PieceLetter | null = null;
+        // ❌ same square → do nothing
+        if (
+            from !== "pool" &&
+            from[0] === realR &&
+            from[1] === realC
+        ) {
+            setDraggedPiece(null);
+            setFromPos(null);
+            setDragPos(null);
+            setDragOffset(null);
+            return;
+        }
+
+        // ✅ detect capture BEFORE state update
+        const captured: PieceLetter | null =
+            currentBoard[realR][realC] || null;
 
         setCurrentBoard(prev => {
             const newBoard = prev.map(row => [...row]);
-            // remove piece from old position if not pool
-            if (fromPos && fromPos !== "pool") newBoard[fromPos[0]][fromPos[1]] = null;
 
-            // store captured piece before placing new piece
-            captured = newBoard[realR][realC] || null;
+            // remove piece from old position
+            if (fromPos && fromPos !== "pool") {
+                newBoard[fromPos[0]][fromPos[1]] = null;
+            }
+
             // place piece
             newBoard[realR][realC] = piece;
+
             return newBoard;
         });
 
-        // Only add move if position changed or captured something
-        const isMoveValid = from === "pool" || from[0] !== realR || from[1] !== realC || captured;
+        const isMoveValid =
+            from === "pool" ||
+            from[0] !== realR ||
+            from[1] !== realC ||
+            captured;
 
         if (isMoveValid) {
-            addMove({ pieceFrom: piece, from, to: [realR, realC], captured });
+            addMove({
+                pieceFrom: piece,
+                from,
+                to: [realR, realC],
+                captured,
+            });
         }
 
         setDraggedPiece(null);
@@ -111,6 +136,8 @@ const Board = forwardRef<BoardHandle, BoardProps>(({ board = initialBoard, flipp
         setDragPos(null);
         setDragOffset(null);
     };
+
+
 
 // ======================
 // CLICK TO PLACE POOL PIECE
