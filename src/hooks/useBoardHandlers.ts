@@ -9,6 +9,7 @@ export type BoardHandle = {
     moveBack: () => void;
     flipBoard: () => void;
     getBoard:()=> void;
+    clearArrowBoard: () => void;
 };
 
 type Params = {
@@ -19,9 +20,10 @@ type Params = {
     moveBackHistory: () => void;
     setSelectedPoolPiece: (v: PieceLetter | null) => void;
     setBoardFlipped: React.Dispatch<React.SetStateAction<boolean>>;
+    setStoreArrow: React.Dispatch<React.SetStateAction<[number, number][][]>>;
 };
 
-export function useBoardHandlers({ref, history, setCurrentBoard, clearHistory, moveBackHistory, setSelectedPoolPiece, setBoardFlipped,}
+export function useBoardHandlers({ref, history, setCurrentBoard, clearHistory, moveBackHistory, setSelectedPoolPiece, setBoardFlipped,setStoreArrow}
                                      : Params) {
     useImperativeHandle(ref, () => ({
         resetBoard: () => {
@@ -59,6 +61,9 @@ export function useBoardHandlers({ref, history, setCurrentBoard, clearHistory, m
         },
         getBoard:()=>{
             setCurrentBoard(initialBoard)
-        }
+        },
+        clearArrowBoard:()=>{
+            setStoreArrow([]);
+    }
     }));
 }
