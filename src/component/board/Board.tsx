@@ -54,6 +54,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         // POINTER / DRAG HANDLERS
         // -----------------------------
         const handlePointerDownBoard = (r: number, c: number, piece: PieceLetter) => (e: React.PointerEvent) => {
+            if (e.button === 2) return;
             e.preventDefault();
             setDraggedPiece(piece);
             setFromPos([r, c]);
