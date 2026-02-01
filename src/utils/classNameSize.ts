@@ -9,4 +9,4 @@ export const pieceSize = `
   max-w-[130px] max-h-[120px]   /* cap size on big screens */
   select-none cursor-grab active:cursor-grabbing
 `;
-export const boardSize =`w-[50vw] h-[45vw]`
+export const boardSize =`w-[50vw] h-[40vw]`
