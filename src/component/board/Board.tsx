@@ -129,7 +129,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         // RENDER
         // -----------------------------
         return (
-            <div className="w-full h-full flex flex-row gap-4 bg-blue-100">
+            <div className="w-full h-full flex flex-row m-1 gap-4 bg-blue-100">
                 <div className="flex flex-row items-center">
                     <div ref={boardRef} className={`relative grid grid-cols-8 grid-rows-8 ${boardSize}`} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} style={{ touchAction: "none" }}>
 

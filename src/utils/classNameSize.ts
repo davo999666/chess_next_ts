@@ -10,9 +10,9 @@ export const pieceSize = `
   select-none cursor-grab active:cursor-grabbing
 `;
 export const boardSize = `
-  w-[68vw] h-[68vw]           /* default small screens: fills most width */
-  sm:w-[60vw] sm:h-[50vw]     /* small phones */
-  md:w-[60vw] md:h-[50vw]     /* tablets */
+  w-[68vw] h-[75vw]           /* default small screens: fills most width */
+  sm:w-[68vw] sm:h-[75vw]     /* small phones */
+  md:w-[68vw] md:h-[75vw]     /* tablets */
   lg:w-[45vw] lg:h-[40vw]     /* laptops */
   xl:w-[45vw] xl:h-[40vw]     /* desktops */
   2xl:w-[45vw] 2xl:h-[40vw]   /* very large screens */
@@ -24,9 +24,9 @@ export const SidebarSize =`
     w-[100vw] h-[50vw]           /* default small screens: fills most width */
 sm:w-[100vw] sm:h-[50vw]     /* small phones */
 md:w-[100vw] md:h-[50vw]     /* tablets */
-lg:w-[45vw] lg:h-[40vw]     /* laptops */
-xl:w-[45vw] xl:h-[40vw]     /* desktops */
-2xl:w-[45vw] 2xl:h-[40vw]   /* very large screens */
+lg:w-full lg:h-screen     /* laptops */
+xl:w-full xl:h-screen     /* desktops */
+2xl:w-full 2xl:h-screen   /* very large screens */
 max-w-[960px] max-h-[960px] /* never exceed 960x960 */
 shadow-2xl rounded-md
     `;
