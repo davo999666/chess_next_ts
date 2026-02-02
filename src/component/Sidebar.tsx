@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ boardRef }) => {
     ];
 
     return (
-        <div   className={`${SidebarSize} md:w-full md:h-screen bg-[#1e1e2f] 
+        <div   className={`${SidebarSize} bg-[#1e1e2f] 
   p-2 pt-3 text-white flex flex-col shadow-lg text-center rounded-lg
   overflow-y-auto`}>
             <div className="flex flex-col gap-3">

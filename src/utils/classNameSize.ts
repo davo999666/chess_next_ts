@@ -20,8 +20,8 @@ export const boardSize = `
   shadow-2xl rounded-md
 `;
 
-export const SidebarSize =`
-    w-[100vw] h-[50vw]           /* default small screens: fills most width */
+export const SidebarSize =`mr-1 ml-1
+    w-[100vw] h-[70vw]           /* default small screens: fills most width */
 sm:w-[100vw] sm:h-[50vw]     /* small phones */
 md:w-[100vw] md:h-[50vw]     /* tablets */
 lg:w-full lg:h-screen     /* laptops */

@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "@/context/HistoryContext";
 import { letters, numbers } from "@/utils/boardUtils";
+import {SidebarSize} from "@/utils/classNameSize";
 
 const SidebarRight = () => {
     const { history } = useHistory();
@@ -14,7 +15,7 @@ const SidebarRight = () => {
     };
    console.log(history)
     return (
-        <div className="w-full h-[40dvh] md:w-full md:h-screen bg-[#1e1e2f] p-1 pt-3 text-white flex flex-col rounded-lg">
+        <div className={`${SidebarSize} bg-[#1e1e2f] p-1 pt-2 text-white flex flex-col rounded-lg`}>
             {/*History*/}
             <div className="w-full h-[30vw] md:h-[20vw] bg-[#1e1e2f] text-white flex flex-col rounded-lg">
                 <div className="flex-1 bg-gray-100 text-black rounded shadow overflow-y-auto p-2">
