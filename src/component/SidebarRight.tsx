@@ -13,7 +13,6 @@ const SidebarRight = () => {
         const [r, c] = pos;
         return `${letters[c]}${numbers[r]}`;
     };
-   console.log(history)
     return (
         <div className={`${SidebarSize} bg-[#1e1e2f] p-1 pt-2 text-white flex flex-col rounded-lg`}>
             {/*History*/}
