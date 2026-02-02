@@ -10,9 +10,9 @@ export const pieceSize = `
   select-none cursor-grab active:cursor-grabbing
 `;
 export const boardSize = `
-  w-[68vw] h-[75vw]           /* default small screens: fills most width */
-  sm:w-[68vw] sm:h-[75vw]     /* small phones */
-  md:w-[68vw] md:h-[75vw]     /* tablets */
+  w-[67vw] h-[75vw]           /* default small screens: fills most width */
+  sm:w-[67vw] sm:h-[75vw]     /* small phones */
+  md:w-[67vw] md:h-[75vw]     /* tablets */
   lg:w-[45vw] lg:h-[40vw]     /* laptops */
   xl:w-[45vw] xl:h-[40vw]     /* desktops */
   2xl:w-[45vw] 2xl:h-[40vw]   /* very large screens */
