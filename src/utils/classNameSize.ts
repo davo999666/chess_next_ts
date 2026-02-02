@@ -2,8 +2,8 @@
 export const pieceSize = `
   w-[7vw] h-[7vw]             /* default small screens */
   sm:w-[7vw] sm:h-[7vw]         /* small phones */
-  md:w-[7vw] md:h-[7vw]         /* tablets */
-  lg:w-[6vw] lg:h-[5.5vw]         /* laptops */
+  md:w-[6vw] md:h-[6vw]         /* tablets */
+  lg:w-[5vw] lg:h-[5vw]         /* laptops */
   xl:w-[5vw] xl:h-[5vw]     /* desktops */
   2xl:w-[5vw] 2xl:h-[5vw]       /* very large screens */
   max-w-[130px] max-h-[120px]   /* cap size on big screens */
@@ -20,8 +20,8 @@ export const boardSize = `
   shadow-2xl rounded-md
 `;
 
-export const SidebarSize =`mr-1 ml-1
-    w-[100vw] h-[70vw]           /* default small screens: fills most width */
+export const SidebarSize =`
+    w-[99vw] h-[70vw]           /* default small screens: fills most width */
 sm:w-[100vw] sm:h-[50vw]     /* small phones */
 md:w-[100vw] md:h-[50vw]     /* tablets */
 lg:w-full lg:h-screen     /* laptops */
