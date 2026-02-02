@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { BoardHandle } from "@/hooks/useBoardHandlers";
+import { SidebarSize} from "@/utils/classNameSize";
 
 type SidebarProps = { boardRef: React.RefObject<BoardHandle | null> };
 
@@ -15,7 +16,9 @@ const Sidebar: React.FC<SidebarProps> = ({ boardRef }) => {
     ];
 
     return (
-        <div className="w-full h-[40dvh] md:w-full md:h-screen bg-[#1e1e2f] p-2 pt-3 text-white flex flex-col shadow-lg text-center rounded-lg">
+        <div   className={`${SidebarSize} md:w-full md:h-screen bg-[#1e1e2f] 
+  p-2 pt-3 text-white flex flex-col shadow-lg text-center rounded-lg
+  overflow-y-auto`}>
             <div className="flex flex-col gap-3">
                 {buttons.map((btn) => (
                     <button
