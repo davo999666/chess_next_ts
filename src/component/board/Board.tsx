@@ -31,7 +31,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null);
         const [dragOffset, setDragOffset] = useState<{ x: number; y: number } | null>(null);
         // ARROW HOOK
-        const { arrows, storedArrows, handleRightEnter, handleRightUp } = useArrowDrawing();
+        const { arrows, storedArrows, setStoredArrows ,  handleRightEnter, handleRightUp } = useArrowDrawing();
         // POOL STATE
         const [selectedPoolPiece, setSelectedPoolPiece] = useState<PieceLetter | null>(null);
         // CIRCLE STATE
@@ -41,7 +41,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         const { addMove, moveBack: moveBackHistory, clearHistory, history } = useHistory();
         // HOOK
         useBoardHandlers({ref, history, setCurrentBoard, clearHistory, moveBackHistory, setSelectedPoolPiece, setBoardFlipped,
-            setStoreArrow: () => {}, // optional, arrow state is handled in hook
+            setStoredArrows, setCircles // optional, arrow state is handled in hook
         });
 
         const displayedBoard = boardFlipped ? flipBoardView(currentBoard) : currentBoard;

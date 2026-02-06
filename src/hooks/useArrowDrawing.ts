@@ -46,6 +46,7 @@ export const useArrowDrawing = () => {
     return {
         arrows,
         storedArrows,
+        setStoredArrows,
         handleRightEnter,
         handleRightUp
     };

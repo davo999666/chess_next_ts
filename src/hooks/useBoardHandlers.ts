@@ -20,10 +20,22 @@ type Params = {
     moveBackHistory: () => void;
     setSelectedPoolPiece: (v: PieceLetter | null) => void;
     setBoardFlipped: React.Dispatch<React.SetStateAction<boolean>>;
-    setStoreArrow: React.Dispatch<React.SetStateAction<[number, number][][]>>;
+    setStoredArrows: React.Dispatch<React.SetStateAction<[number, number][][]>>;
+    setCircles: React.Dispatch<React.SetStateAction<{ r: number; c: number; color: string }[]>>;
+
 };
 
-export function useBoardHandlers({ref, history, setCurrentBoard, clearHistory, moveBackHistory, setSelectedPoolPiece, setBoardFlipped,setStoreArrow}
+export function useBoardHandlers({
+                                     ref,
+                                     history,
+                                     setCurrentBoard,
+                                     clearHistory,
+                                     moveBackHistory,
+                                     setSelectedPoolPiece,
+                                     setBoardFlipped,
+                                     setStoredArrows,
+                                     setCircles
+}
                                      : Params) {
     useImperativeHandle(ref, () => ({
         resetBoard: () => {
@@ -62,8 +74,9 @@ export function useBoardHandlers({ref, history, setCurrentBoard, clearHistory, m
         getBoard:()=>{
             setCurrentBoard(initialBoard)
         },
-        clearArrowBoard:()=>{
-            setStoreArrow([]);
-    }
+        clearArrowBoard: () => {
+            setStoredArrows([]);
+            setCircles([]);
+        }
     }));
 }
