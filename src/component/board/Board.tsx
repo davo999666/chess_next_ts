@@ -36,8 +36,6 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         const [selectedPoolPiece, setSelectedPoolPiece] = useState<PieceLetter | null>(null);
         // CIRCLE STATE
         const [circles, setCircles] = useState<{ r: number; c: number; color: string }[]>([]);
-        const [lastRightClickTime, setLastRightClickTime] = useState(0);
-        const doubleClickThreshold = 300;
         // REFS & HISTORY
         const boardRef = useRef<HTMLDivElement>(null);
         const { addMove, moveBack: moveBackHistory, clearHistory, history } = useHistory();
@@ -105,14 +103,19 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         // -------------------
         const handleRightClick = (r: number, c: number, e: React.MouseEvent) => {
             e.preventDefault();
-            const now = Date.now();
-            if (now - lastRightClickTime < doubleClickThreshold) {
-                const color = `hsl(${Math.random() * 360}, 80%, 50%)`;
-                setCircles((prev) => [...prev, { r, c, color }]);
-            } else {
-                setCircles((prev) => prev.filter((x) => x.r !== r || x.c !== c));
-            }
-            setLastRightClickTime(now);
+            console.log(arrows, storedArrows)
+            // Check if circle exists at this square
+            setCircles((prev) => {
+                const exists = prev.some((x) => x.r === r && x.c === c);
+                if (exists) {
+                    // Remove if exists
+                    return prev.filter((x) => x.r !== r || x.c !== c);
+                } else {
+                    // Add new circle with random color
+                    const color = `hsl(${Math.random() * 360}, 80%, 50%)`;
+                    return [...prev, { r, c, color }];
+                }
+            });
         };
 
         // -------------------

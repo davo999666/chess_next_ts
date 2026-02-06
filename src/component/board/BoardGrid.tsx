@@ -1,10 +1,9 @@
 "use client";
-import React, {useState} from "react";
+import React, { useState, useRef } from "react";
 import PieceImage from "@/component/PieceImage";
 import DragLayer from "@/component/board/DragLayer";
 import { PieceLetter } from "@/utils/pieceMap";
 import { letters, numbers } from "@/utils/boardUtils";
-import RightClickCircles from "@/component/RightClickCircles";
 
 type Square = [number, number];
 
@@ -20,8 +19,10 @@ type BoardGridProps = {
 
     onRightEnter: (r: number, c: number) => void;
     onRightUp: () => void;
-    onRightClick?: (r: number, c: number, e: React.MouseEvent) => void; // new
+    onRightClick?: (r: number, c: number, e: React.MouseEvent) => void;
 };
+
+const FAST_CLICK_TIME = 200; // ms
 
 const BoardGrid: React.FC<BoardGridProps> = ({
                                                  displayedBoard,
@@ -38,7 +39,10 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                                              }) => {
     const boardLetters = boardFlipped ? [...letters].reverse() : letters;
     const boardNumbers = boardFlipped ? [...numbers].reverse() : numbers;
-    const [isRightMouseDown, setIsRightMouseDown] = useState<boolean>(false)
+
+    const [isRightMouseDown, setIsRightMouseDown] = useState(false);
+    const rightClickStart = useRef<number>(0);
+    const rightMoved = useRef(false);
 
     return (
         <>
@@ -61,27 +65,42 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                             className={`relative flex items-center justify-center w-full h-full ${
                                 isDark ? "bg-[#b58863]" : "bg-[#f0d9b5]"
                             }`}
-                            onContextMenu={(e) => {
-                                e.preventDefault();
-                                onRightClick?.(realR, realC, e);
-                            }}
+
                             onMouseDown={(e) => {
                                 if (e.button === 2) {
-                                    setIsRightMouseDown(true); // start right-click drag
-                                    onRightEnter(realR, realC); // include first square immediately
-                                }
-                            }}
-                            onMouseEnter={(e) => {
-                                if (isRightMouseDown) {
+                                    e.preventDefault();
+                                    setIsRightMouseDown(true);
+
+                                    rightClickStart.current = Date.now();
+                                    rightMoved.current = false;
                                     onRightEnter(realR, realC);
                                 }
                             }}
+
+                            onMouseEnter={() => {
+                                if (isRightMouseDown) {
+                                    rightMoved.current = true;
+                                    onRightEnter(realR, realC);
+                                }
+                            }}
+
                             onMouseUp={(e) => {
                                 if (e.button === 2) {
+                                    e.preventDefault();
                                     setIsRightMouseDown(false);
+
+                                    const duration = Date.now() - rightClickStart.current;
+
+                                    // ✅ FAST right click only
+                                    if (!rightMoved.current && duration < FAST_CLICK_TIME) {
+                                        onRightClick?.(realR, realC, e);
+                                    }
+
                                     onRightUp();
                                 }
                             }}
+
+                            onContextMenu={(e) => e.preventDefault()} // block browser menu
                         >
                             <div
                                 className="absolute w-full h-full flex items-center justify-center"
@@ -92,12 +111,12 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                             </div>
 
                             {r === 7 && (
-                <span className="absolute bottom-0 right-0 text-black font-bold text-xs sm:text-sm md:text-lg leading-none">
+                                <span className="absolute bottom-0 right-0 text-black font-bold text-xs sm:text-sm md:text-lg leading-none">
                   {boardLetters[c]}
                 </span>
                             )}
                             {c === 0 && (
-                <span className="absolute left-0 top-0 text-black font-bold text-xs sm:text-sm md:text-l leading-none">
+                                <span className="absolute left-0 top-0 text-black font-bold text-xs sm:text-sm md:text-l leading-none">
                   {boardNumbers[r]}
                 </span>
                             )}
@@ -106,9 +125,7 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                 })
             )}
 
-            {/* Render dragged piece */}
             {draggedPiece && dragPos && <DragLayer piece={draggedPiece} x={dragPos.x} y={dragPos.y} />}
-
         </>
     );
 };
