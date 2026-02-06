@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useState} from "react";
 import PieceImage from "@/component/PieceImage";
 import DragLayer from "@/component/board/DragLayer";
 import { PieceLetter } from "@/utils/pieceMap";
@@ -16,9 +16,7 @@ type BoardGridProps = {
     handleClickSquare: (r: number, c: number) => void;
     handlePointerDownBoard: (r: number, c: number, piece: PieceLetter) => (e: React.PointerEvent) => void;
     boardFlipped: boolean;
-    isDraggingArrow: boolean;
 
-    onRightDown: (r: number, c: number) => void;
     onRightEnter: (r: number, c: number) => void;
     onRightUp: () => void;
     onRightClick?: (r: number, c: number, e: React.MouseEvent) => void; // new
@@ -34,15 +32,14 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                                                  handleClickSquare,
                                                  handlePointerDownBoard,
                                                  boardFlipped,
-                                                 onRightDown,
                                                  onRightEnter,
                                                  onRightUp,
                                                  onRightClick,
                                                  circles = [],
-                                                 isDraggingArrow
                                              }) => {
     const boardLetters = boardFlipped ? [...letters].reverse() : letters;
     const boardNumbers = boardFlipped ? [...numbers].reverse() : numbers;
+    const [isRightMouseDown, setIsRightMouseDown] = useState<boolean>(false)
 
     const squarePercent = 100 / 8; // for circle positioning
 
@@ -80,14 +77,24 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                             }`}
                             onContextMenu={(e) => {
                                 e.preventDefault();
-                                if (!isDraggingArrow) onRightClick?.(realR, realC, e);
+                                onRightClick?.(realR, realC, e);
                             }}
                             onMouseDown={(e) => {
-                                if (e.button === 2) onRightDown(realR, realC);
+                                if (e.button === 2) {
+                                    setIsRightMouseDown(true); // start right-click drag
+                                    onRightEnter(realR, realC); // include first square immediately
+                                }
                             }}
-                            onMouseEnter={() => onRightEnter(realR, realC)}
+                            onMouseEnter={(e) => {
+                                if (isRightMouseDown) {
+                                    onRightEnter(realR, realC);
+                                }
+                            }}
                             onMouseUp={(e) => {
-                                if (e.button === 2) onRightUp();
+                                if (e.button === 2) {
+                                    setIsRightMouseDown(false);
+                                    onRightUp();
+                                }
                             }}
                         >
                             <div
