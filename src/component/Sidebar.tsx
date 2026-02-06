@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ boardRef }) => {
                                 px-4 py-3
                                 text-white font-medium rounded-lg
                                 shadow-md
-                                transition transform duration-150
+                                transition transform duration-300
                                 hover:scale-105
                                 active:scale-95
                                 ${bgClass}
