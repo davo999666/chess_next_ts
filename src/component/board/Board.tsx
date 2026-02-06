@@ -9,7 +9,9 @@ import BoardGrid from "@/component/board/BoardGrid";
 import { BoardHandle, useBoardHandlers } from "@/hooks/useBoardHandlers";
 import MoveArrows from "@/component/MoveArrows";
 import RightClickCircles from "@/component/RightClickCircles";
-import { useArrowDrawing, Square } from "@/hooks/useArrowDrawing"; // your arrow hook
+import { useArrowDrawing, Square } from "@/hooks/useArrowDrawing";
+import {getLegalMovesForPiece} from "@/utils/legalMoves";
+
 
 type BoardProps = {
     board?: (PieceLetter | null)[][];
@@ -23,6 +25,8 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         // -------------------
         const [currentBoard, setCurrentBoard] = useState(board);
         const [boardFlipped, setBoardFlipped] = useState(flipped);
+        const [legalMoves, setLegalMoves] = useState<Square[]>([]);
+        const [switchLegalMoves, setSwitchLegalMoves] = useState<boolean>(false)
         // -------------------
         // DRAG STATE
         // -------------------
@@ -41,7 +45,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         const { addMove, moveBack: moveBackHistory, clearHistory, history } = useHistory();
         // HOOK
         useBoardHandlers({ref, history, setCurrentBoard, clearHistory, moveBackHistory, setSelectedPoolPiece, setBoardFlipped,
-            setStoredArrows, setCircles // optional, arrow state is handled in hook
+            setStoredArrows, setCircles , setSwitchLegalMoves // optional, arrow state is handled in hook
         });
 
         const displayedBoard = boardFlipped ? flipBoardView(currentBoard) : currentBoard;
@@ -58,6 +62,12 @@ const Board = forwardRef<BoardHandle, BoardProps>(
 
                 const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                 setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+                if(switchLegalMoves){
+                    const moves = getLegalMovesForPiece(piece, [r, c], currentBoard)
+                        .map(move => [move[0], move[1]] as [number, number]);
+                    setLegalMoves(moves);
+                }
+
             };
 
         const handlePointerMove = (e: React.PointerEvent) => {
@@ -108,7 +118,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                     return;
                 }
             }
-
+            setLegalMoves([]);
             addMove({
                 pieceFrom: pieceToPlace,
                 from: fromPos ?? "pool",
@@ -122,6 +132,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
             setDragOffset(null);
 
             if (fromPos === "pool") setSelectedPoolPiece(null);
+
         };
 
 
@@ -170,6 +181,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                             onRightEnter={handleRightEnter}
                             onRightUp={handleRightUp}
                             onRightClick={handleRightClick}
+                            legalMoves={legalMoves}
                         />
 
                         {/* Current arrow while drawing */}

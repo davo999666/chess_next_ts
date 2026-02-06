@@ -17,6 +17,7 @@ type BoardGridProps = {
     handlePointerDownBoard: (r: number, c: number, piece: PieceLetter) => (e: React.PointerEvent) => void;
     boardFlipped: boolean;
 
+    legalMoves?: Square[];
     onRightEnter: (r: number, c: number) => void;
     onRightUp: () => void;
     onRightClick?: (r: number, c: number, e: React.MouseEvent) => void;
@@ -36,6 +37,7 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                                                  onRightEnter,
                                                  onRightUp,
                                                  onRightClick,
+                                                 legalMoves = [],
                                              }) => {
     const boardLetters = boardFlipped ? [...letters].reverse() : letters;
     const boardNumbers = boardFlipped ? [...numbers].reverse() : numbers;
@@ -43,6 +45,8 @@ const BoardGrid: React.FC<BoardGridProps> = ({
     const [isRightMouseDown, setIsRightMouseDown] = useState(false);
     const rightClickStart = useRef<number>(0);
     const rightMoved = useRef(false);
+
+
 
     return (
         <>
@@ -58,6 +62,7 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                         fromPos !== "pool" &&
                         fromPos[0] === realR &&
                         fromPos[1] === realC;
+                    const isLegal = legalMoves.some(([lr, lc]) => lr === realR && lc === realC);
 
                     return (
                         <div
@@ -120,6 +125,8 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                   {boardNumbers[r]}
                 </span>
                             )}
+                            {/*⚫ Legal move indicator*/}
+                            {isLegal && <span className="absolute w-3 h-3 rounded-full bg-black/40" />}
                         </div>
                     );
                 })

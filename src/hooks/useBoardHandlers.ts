@@ -10,6 +10,7 @@ export type BoardHandle = {
     flipBoard: () => void;
     getBoard:()=> void;
     clearArrowBoard: () => void;
+    switchLegalMoves:()=> void;
 };
 
 type Params = {
@@ -22,7 +23,7 @@ type Params = {
     setBoardFlipped: React.Dispatch<React.SetStateAction<boolean>>;
     setStoredArrows: React.Dispatch<React.SetStateAction<[number, number][][]>>;
     setCircles: React.Dispatch<React.SetStateAction<{ r: number; c: number; color: string }[]>>;
-
+    setSwitchLegalMoves: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function useBoardHandlers({
@@ -34,7 +35,8 @@ export function useBoardHandlers({
                                      setSelectedPoolPiece,
                                      setBoardFlipped,
                                      setStoredArrows,
-                                     setCircles
+                                     setCircles,
+                                     setSwitchLegalMoves
 }
                                      : Params) {
     useImperativeHandle(ref, () => ({
@@ -77,6 +79,9 @@ export function useBoardHandlers({
         clearArrowBoard: () => {
             setStoredArrows([]);
             setCircles([]);
+        },
+        switchLegalMoves:()=>{
+            setSwitchLegalMoves(prev => !prev)
         }
     }));
 }
