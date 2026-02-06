@@ -126,7 +126,7 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                 </span>
                             )}
                             {/*⚫ Legal move indicator*/}
-                            {isLegal && <span className="absolute w-3 h-3 rounded-full bg-black/40" />}
+                            {isLegal && <span className="absolute w-3 h-3  rounded-full bg-black/40" />}
                         </div>
                     );
                 })
