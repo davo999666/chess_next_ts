@@ -128,7 +128,6 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                         onPointerUp={handlePointerUp}
                     >
                         <RightClickCircles circles={circles} />
-
                         <BoardGrid
                             displayedBoard={displayedBoard}
                             draggedPiece={draggedPiece}
@@ -141,7 +140,6 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                             onRightEnter={handleRightEnter}
                             onRightUp={handleRightUp}
                             onRightClick={handleRightClick}
-                            circles={circles}
                         />
 
                         {/* Current arrow while drawing */}

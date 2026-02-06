@@ -4,6 +4,7 @@ import PieceImage from "@/component/PieceImage";
 import DragLayer from "@/component/board/DragLayer";
 import { PieceLetter } from "@/utils/pieceMap";
 import { letters, numbers } from "@/utils/boardUtils";
+import RightClickCircles from "@/component/RightClickCircles";
 
 type Square = [number, number];
 
@@ -20,7 +21,6 @@ type BoardGridProps = {
     onRightEnter: (r: number, c: number) => void;
     onRightUp: () => void;
     onRightClick?: (r: number, c: number, e: React.MouseEvent) => void; // new
-    circles?: { r: number; c: number; color: string }[]; // new
 };
 
 const BoardGrid: React.FC<BoardGridProps> = ({
@@ -35,24 +35,10 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                                                  onRightEnter,
                                                  onRightUp,
                                                  onRightClick,
-                                                 circles = [],
                                              }) => {
     const boardLetters = boardFlipped ? [...letters].reverse() : letters;
     const boardNumbers = boardFlipped ? [...numbers].reverse() : numbers;
     const [isRightMouseDown, setIsRightMouseDown] = useState<boolean>(false)
-
-    const squarePercent = 100 / 8; // for circle positioning
-
-    const toPercent = (r: number, c: number) => {
-        if (boardFlipped) {
-            r = 7 - r;
-            c = 7 - c;
-        }
-        return {
-            x: (c + 0.5) * squarePercent,
-            y: (r + 0.5) * squarePercent,
-        };
-    };
 
     return (
         <>
@@ -106,12 +92,12 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                             </div>
 
                             {r === 7 && (
-                                <span className="absolute bottom-0 right-0 text-black font-bold text-xs sm:text-sm md:text-lg leading-none">
+                <span className="absolute bottom-0 right-0 text-black font-bold text-xs sm:text-sm md:text-lg leading-none">
                   {boardLetters[c]}
                 </span>
                             )}
                             {c === 0 && (
-                                <span className="absolute left-0 top-0 text-black font-bold text-xs sm:text-sm md:text-l leading-none">
+                <span className="absolute left-0 top-0 text-black font-bold text-xs sm:text-sm md:text-l leading-none">
                   {boardNumbers[r]}
                 </span>
                             )}
@@ -123,28 +109,6 @@ const BoardGrid: React.FC<BoardGridProps> = ({
             {/* Render dragged piece */}
             {draggedPiece && dragPos && <DragLayer piece={draggedPiece} x={dragPos.x} y={dragPos.y} />}
 
-            {/* Render right-click circles */}
-            {circles.map((circle, i) => {
-                const pos = toPercent(circle.r, circle.c);
-                return (
-                    <svg
-                        key={i}
-                        className="absolute top-0 left-0 pointer-events-none"
-                        style={{ width: "100%", height: "100%", zIndex: 60 }}
-                    >
-                        <circle
-                            cx={`${pos.x}%`}
-                            cy={`${pos.y}%`}
-                            r="5.5%"
-                            stroke={circle.color}
-                            strokeWidth="0.6%"
-                            fill="none"
-                            opacity={0.9}
-                            vectorEffect="non-scaling-stroke"
-                        />
-                    </svg>
-                );
-            })}
         </>
     );
 };
