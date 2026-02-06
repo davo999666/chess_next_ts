@@ -22,7 +22,21 @@ const HistoryContext = createContext<HistoryContextType | undefined>(undefined);
 export const HistoryProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [history, setHistory] = useState<Move[]>([]);
 
-    const addMove = (move: Move) => setHistory((prev) => [...prev, move]);
+    const addMove = (move: Move) => {
+        setHistory((prev) => {
+            const lastMove = prev[prev.length - 1];
+            // Compare last move with the new move
+            const isSame =
+                lastMove &&
+                lastMove.pieceFrom === move.pieceFrom &&
+                JSON.stringify(lastMove.from) === JSON.stringify(move.from) &&
+                JSON.stringify(lastMove.to) === JSON.stringify(move.to) &&
+                lastMove.captured === move.captured;
+
+            if (isSame) return prev; // Don't add duplicate
+            return [...prev, move];
+        });
+    };
     const moveBack = () => setHistory((prev) => prev.slice(0, -1));
     const clearHistory = () => setHistory([]);
 

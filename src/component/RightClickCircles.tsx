@@ -6,19 +6,29 @@ type Circle = {
 
 interface RightClickCirclesProps {
     circles: Circle[];
+    boardFlipped?: boolean; // new
 }
 
-export default function RightClickCircles({ circles }: RightClickCirclesProps) {
+export default function RightClickCircles({ circles, boardFlipped = false }: RightClickCirclesProps) {
     const squarePercent = 100 / 8;
     const radiusPct = 5.5;
     const strokePct = 0.6;
 
+    const toPercent = (r: number, c: number) => {
+        if (boardFlipped) {
+            r = 7 - r;
+            c = 7 - c;
+        }
+        return {
+            x: (c + 0.5) * squarePercent,
+            y: (r + 0.5) * squarePercent,
+        };
+    };
+
     return (
         <>
             {circles.map((circle, i) => {
-                const x = (circle.c + 0.5) * squarePercent;
-                const y = (circle.r + 0.5) * squarePercent;
-
+                const pos = toPercent(circle.r, circle.c);
                 return (
                     <svg
                         key={i}
@@ -26,8 +36,8 @@ export default function RightClickCircles({ circles }: RightClickCirclesProps) {
                         style={{ width: "100%", height: "100%", zIndex: 60 }}
                     >
                         <circle
-                            cx={`${x}%`}
-                            cy={`${y}%`}
+                            cx={`${pos.x}%`}
+                            cy={`${pos.y}%`}
                             r={`${radiusPct}%`}
                             stroke={circle.color}
                             strokeWidth={`${strokePct}%`}

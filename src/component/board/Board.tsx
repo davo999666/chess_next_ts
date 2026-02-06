@@ -71,7 +71,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         };
 
         const handlePointerUp = (e: React.PointerEvent) => {
-            if (!draggedPiece || !boardRef.current) return;
+            if ((!draggedPiece && !selectedPoolPiece) || !boardRef.current) return;
 
             const rect = boardRef.current.getBoundingClientRect();
             let c = Math.floor((e.clientX - rect.left) / (rect.width / 8));
@@ -81,29 +81,56 @@ const Board = forwardRef<BoardHandle, BoardProps>(
             c = Math.max(0, Math.min(7, c));
 
             const [realR, realC] = toRealPos(r, c);
+
+            const pieceToPlace = draggedPiece ?? selectedPoolPiece;
+            if (!pieceToPlace) return;
+
+
+
             const captured = currentBoard[realR][realC] || null;
 
             setCurrentBoard((prev) => {
                 const copy = prev.map((row) => [...row]);
                 if (fromPos && fromPos !== "pool") copy[fromPos[0]][fromPos[1]] = null;
-                copy[realR][realC] = draggedPiece;
+                copy[realR][realC] = pieceToPlace;
                 return copy;
             });
+            if(fromPos === "pool"){
+                // If same piece is already there, do nothing
+                if (currentBoard[realR][realC] === pieceToPlace) {
 
-            addMove({ pieceFrom: draggedPiece, from: fromPos || "pool", to: [realR, realC], captured });
+                    setDraggedPiece(null);
+                    setFromPos(null);
+                    setDragPos(null);
+                    setDragOffset(null);
+                    if (fromPos === "pool") setSelectedPoolPiece(null);
+                    console.log(pieceToPlace, fromPos)
+                    return;
+                }
+            }
+
+            addMove({
+                pieceFrom: pieceToPlace,
+                from: fromPos ?? "pool",
+                to: [realR, realC],
+                captured,
+            });
 
             setDraggedPiece(null);
             setFromPos(null);
             setDragPos(null);
             setDragOffset(null);
+
+            if (fromPos === "pool") setSelectedPoolPiece(null);
         };
 
+
+
         // -------------------
-        // DOUBLE RIGHT CLICK CIRCLES
+        // RIGHT CLICK CIRCLES
         // -------------------
         const handleRightClick = (r: number, c: number, e: React.MouseEvent) => {
             e.preventDefault();
-            console.log(arrows, storedArrows)
             // Check if circle exists at this square
             setCircles((prev) => {
                 const exists = prev.some((x) => x.r === r && x.c === c);
@@ -130,7 +157,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
                     >
-                        <RightClickCircles circles={circles} />
+                        <RightClickCircles circles={circles} boardFlipped={boardFlipped} />
                         <BoardGrid
                             displayedBoard={displayedBoard}
                             draggedPiece={draggedPiece}
