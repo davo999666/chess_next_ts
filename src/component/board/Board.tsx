@@ -71,7 +71,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         };
 
         const handlePointerUp = (e: React.PointerEvent) => {
-            if ((!draggedPiece && !selectedPoolPiece) || !boardRef.current) return;
+            if ((!draggedPiece && !selectedPoolPiece) || !boardRef.current || e.button === 2) return;
 
             const rect = boardRef.current.getBoundingClientRect();
             let c = Math.floor((e.clientX - rect.left) / (rect.width / 8));
