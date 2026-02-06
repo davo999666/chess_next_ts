@@ -13,6 +13,7 @@ const DragLayer: React.FC<Props> = ({ piece, x, y }) => {
         <div
             className="absolute pointer-events-none"
             style={{ left: x, top: y }}
+
         >
             <PieceImage piece={piece}  />
 

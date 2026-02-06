@@ -72,7 +72,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
 
         const handlePointerMove = (e: React.PointerEvent) => {
             if (!draggedPiece || !boardRef.current || !dragOffset) return;
-
+            e.preventDefault(); // ✅ Prevent page scroll while dragging
             const rect = boardRef.current.getBoundingClientRect();
             setDragPos({
                 x: e.clientX - rect.left - dragOffset.x,
@@ -81,6 +81,8 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         };
 
         const handlePointerUp = (e: React.PointerEvent) => {
+            e.preventDefault(); // ✅ Prevent screen scroll/drag
+            e.stopPropagation(); // Optional, stop bubbling if needed
             if ((!draggedPiece && !selectedPoolPiece) || !boardRef.current || e.button === 2) return;
 
             const rect = boardRef.current.getBoundingClientRect();
@@ -165,6 +167,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                     <div
                         ref={boardRef}
                         className={`relative grid grid-cols-8 grid-rows-8 ${boardSize}`}
+                        style={{ touchAction: "none" }}
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
                     >
