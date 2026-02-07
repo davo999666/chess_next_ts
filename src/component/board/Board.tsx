@@ -56,10 +56,9 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         const handlePointerDownBoard =
             (r: number, c: number, piece: PieceLetter) => (e: React.PointerEvent) => {
                 if (e.button === 2) return;
-
                 setDraggedPiece(piece);
                 setFromPos([r, c]);
-
+                console.log("1")
                 const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                 setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
                 if(switchLegalMoves){
@@ -81,11 +80,52 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         };
 
         const handlePointerUp = (e: React.PointerEvent) => {
-            e.preventDefault(); // ✅ Prevent screen scroll/drag
-            e.stopPropagation(); // Optional, stop bubbling if needed
+            e.preventDefault();
+            e.stopPropagation();
+
             if ((!draggedPiece && !selectedPoolPiece) || !boardRef.current || e.button === 2) return;
 
             const rect = boardRef.current.getBoundingClientRect();
+            const pieceToPlace = draggedPiece ?? selectedPoolPiece;
+
+            if (!pieceToPlace) return;
+
+            // ---------- Check if outside board ----------
+            const outsideBoard =
+                e.clientX < rect.left ||
+                e.clientX > rect.right ||
+                e.clientY < rect.top ||
+                e.clientY > rect.bottom;
+
+            if (outsideBoard) {
+                // Remove piece from board if it came from board
+                if (fromPos && fromPos !== "pool") {
+                    setCurrentBoard((prev) => {
+                        const copy = prev.map((row) => [...row]);
+                        copy[fromPos[0]][fromPos[1]] = null;
+                        return copy;
+                    });
+                }
+
+                // Add history entry
+                addMove({
+                    pieceFrom: pieceToPlace,
+                    from: fromPos ?? "pool",
+                    to: "removed", // instead of a board position
+                    captured: null,
+                });
+
+                // Reset drag state
+                setDraggedPiece(null);
+                setFromPos(null);
+                setDragPos(null);
+                setDragOffset(null);
+                if (fromPos === "pool") setSelectedPoolPiece(null);
+
+                return;
+            }
+
+            // ---------- Inside board logic ----------
             let c = Math.floor((e.clientX - rect.left) / (rect.width / 8));
             let r = Math.floor((e.clientY - rect.top) / (rect.height / 8));
 
@@ -93,12 +133,6 @@ const Board = forwardRef<BoardHandle, BoardProps>(
             c = Math.max(0, Math.min(7, c));
 
             const [realR, realC] = toRealPos(r, c);
-
-            const pieceToPlace = draggedPiece ?? selectedPoolPiece;
-            if (!pieceToPlace) return;
-
-
-
             const captured = currentBoard[realR][realC] || null;
 
             setCurrentBoard((prev) => {
@@ -107,20 +141,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                 copy[realR][realC] = pieceToPlace;
                 return copy;
             });
-            if(fromPos === "pool"){
-                // If same piece is already there, do nothing
-                if (currentBoard[realR][realC] === pieceToPlace) {
 
-                    setDraggedPiece(null);
-                    setFromPos(null);
-                    setDragPos(null);
-                    setDragOffset(null);
-                    if (fromPos === "pool") setSelectedPoolPiece(null);
-                    console.log(pieceToPlace, fromPos)
-                    return;
-                }
-            }
-            setLegalMoves([]);
             addMove({
                 pieceFrom: pieceToPlace,
                 from: fromPos ?? "pool",
@@ -128,13 +149,15 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                 captured,
             });
 
+            // Reset drag state
             setDraggedPiece(null);
             setFromPos(null);
             setDragPos(null);
             setDragOffset(null);
-
             if (fromPos === "pool") setSelectedPoolPiece(null);
 
+            // Clear legal moves
+            setLegalMoves([]);
         };
 
 
@@ -165,11 +188,15 @@ const Board = forwardRef<BoardHandle, BoardProps>(
             <div className="w-full h-[99%] flex flex-row m-1 gap-4 bg-blue-100">
                 <div className="flex flex-row items-center">
                     <div
-                        ref={boardRef}
-                        className={`relative grid grid-cols-8 grid-rows-8 ${boardSize}`}
-                        style={{ touchAction: "none" }}
+                        className="flex flex-row"
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
+                        style={{ touchAction: "none" }}
+                    >
+                    <div
+                        ref={boardRef}
+                        className={`relative grid grid-cols-8 grid-rows-8 ${boardSize}`}
+
                     >
                         <RightClickCircles circles={circles} boardFlipped={boardFlipped} />
                         <BoardGrid
@@ -212,6 +239,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                     </div>
 
                     <PiecePools selectedPoolPiece={selectedPoolPiece} onSelectPiece={setSelectedPoolPiece} />
+                </div>
                 </div>
             </div>
         );
