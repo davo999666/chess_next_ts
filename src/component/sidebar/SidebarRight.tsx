@@ -21,7 +21,7 @@ const SidebarRight = () => {
     }, [history]);
 
     return (
-        <div className={`${SidebarSizeRight} bg-[#1e1e2f] p-1 pt-2 text-white flex flex-col rounded-lg border-2 border-red-500 `}>
+        <div className={`${SidebarSizeRight} bg-[#1e1e2f] p-1 pt-2 text-white flex flex-col rounded-lg`}>
             <div className="w-full h-[30vw] md:h-[20vw] bg-[#1e1e2f] text-white flex flex-col rounded-lg">
                 <div className="flex-1 bg-gray-100 text-black rounded shadow overflow-y-auto p-2">
                     <h3 className="font-bold mb-2 text-lg text-center">History</h3>
