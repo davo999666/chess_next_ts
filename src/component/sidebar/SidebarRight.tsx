@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useHistory } from "@/context/HistoryContext";
 import { letters, numbers } from "@/utils/boardUtils";
-import { SidebarSize } from "@/utils/classNameSize";
+import {SidebarSize, SidebarSizeRight} from "@/utils/classNameSize";
 
 const SidebarRight = () => {
     const { history } = useHistory();
@@ -21,7 +21,7 @@ const SidebarRight = () => {
     }, [history]);
 
     return (
-        <div className={`${SidebarSize} bg-[#1e1e2f] p-1 pt-2 text-white flex flex-col rounded-lg`}>
+        <div className={`${SidebarSizeRight} bg-[#1e1e2f] p-1 pt-2 text-white flex flex-col rounded-lg border-2 border-red-500 `}>
             <div className="w-full h-[30vw] md:h-[20vw] bg-[#1e1e2f] text-white flex flex-col rounded-lg">
                 <div className="flex-1 bg-gray-100 text-black rounded shadow overflow-y-auto p-2">
                     <h3 className="font-bold mb-2 text-lg text-center">History</h3>
