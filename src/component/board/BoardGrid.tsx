@@ -116,7 +116,7 @@ const BoardGrid: React.FC<BoardGridProps> = ({
                             </div>
 
                             {r === 7 && (
-                                <span className="absolute bottom-0 right-0 text-black font-bold text-xs sm:text-sm md:text-lg leading-none">
+                                <span className="absolute bottom-0 right-0 text-black font-bold text-xs sm:text-sm md:text-l leading-none">
                   {boardLetters[c]}
                 </span>
                             )}
