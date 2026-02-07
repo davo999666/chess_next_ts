@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {HistoryProvider} from "@/context/HistoryContext";
+import Error from "next/error";
+import GlobalError from "@/app/error";
 
 
 

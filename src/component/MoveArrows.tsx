@@ -1,9 +1,9 @@
 import React from "react";
 
-type Square = {
+interface Square  {
     r: number;
     c: number;
-};
+}
 
 type MoveArrowsProps = {
     from: Square | null;
