@@ -58,7 +58,6 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                 if (e.button === 2) return;
                 setDraggedPiece(piece);
                 setFromPos([r, c]);
-                console.log("1")
                 const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                 setDragOffset({ x: e.clientX - rect.left, y: e.clientY - rect.top });
                 if(switchLegalMoves){
@@ -97,6 +96,7 @@ const Board = forwardRef<BoardHandle, BoardProps>(
                 e.clientY < rect.top ||
                 e.clientY > rect.bottom;
 
+
             if (outsideBoard) {
                 // Remove piece from board if it came from board
                 if(!fromPos)return;
@@ -134,6 +134,20 @@ const Board = forwardRef<BoardHandle, BoardProps>(
             c = Math.max(0, Math.min(7, c));
 
             const [realR, realC] = toRealPos(r, c);
+            // --- NEW: check if drop is same square ---
+            if (
+                fromPos &&
+                fromPos !== "pool" &&
+                fromPos[0] === realR &&
+                fromPos[1] === realC
+            ) {
+                // Reset drag state without changing board or adding history
+                setDraggedPiece(null);
+                setFromPos(null);
+                setDragPos(null);
+                setDragOffset(null);
+                return;
+            }
             const captured = currentBoard[realR][realC] || null;
 
             setCurrentBoard((prev) => {
