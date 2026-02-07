@@ -99,7 +99,8 @@ const Board = forwardRef<BoardHandle, BoardProps>(
 
             if (outsideBoard) {
                 // Remove piece from board if it came from board
-                if (fromPos && fromPos !== "pool") {
+                if(!fromPos)return;
+                if (fromPos && fromPos !== "pool" && fromPos) {
                     setCurrentBoard((prev) => {
                         const copy = prev.map((row) => [...row]);
                         copy[fromPos[0]][fromPos[1]] = null;
