@@ -32,7 +32,7 @@
 //   2xl:w-full 2xl:h-screen   /* very large screens */
 //   max-w-[960px] max-h-[960px] /* never exceed 960x960 */
 //   shadow-2xl rounded-md
-// `;
+// `;12
 // // hello
 // export const SidebarSizeRight = `
 //   w-[99vw] h-[calc(25vh)]          /* default small screens: 20% of viewport height */
