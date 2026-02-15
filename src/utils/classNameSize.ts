@@ -59,9 +59,9 @@ export const itemSize = `
 
 
 export const pieceSize = `
-  w-[8vw] h-[8vw]             /* default small screens */
-  sm:w-[7vw] sm:h-[7vw]         /* small phones */
-  md:w-[6vw] md:h-[6vw]         /* tablets */
+  w-[10vw] h-[10vw]             /* default small screens */
+  sm:w-[8vw] sm:h-[8vw]         /* small phones */
+  md:w-[6.5vw] md:h-[6.5vw]         /* tablets */
   lg:w-[5vw] lg:h-[5vw]         /* laptops */
   xl:w-[5vw] xl:h-[5vw]     /* desktops */
   2xl:w-[5vw] 2xl:h-[5vw]       /* very large screens */
@@ -69,9 +69,9 @@ export const pieceSize = `
   select-none cursor-grab active:cursor-grabbing
 `;
 export const boardSize = `
-  w-[67vw] h-[75vw]           /* default small screens: fills most width */
-  sm:w-[67vw] sm:h-[75vw]     /* small phones */
-  md:w-[67vw] md:h-[75vw]     /* tablets */
+  w-[80vw] h-[80vw]           /* default small screens: fills most width */
+  sm:w-[80vw] sm:h-[80vw]     /* small phones */
+  md:w-[80vw] md:h-[80vw]     /* tablets */
   lg:w-[40vw] lg:h-[40vw]     /* laptops */
   xl:w-[40vw] xl:h-[40vw]     /* desktops */
   2xl:w-[40vw] 2xl:h-[40vw]   /* very large screens */

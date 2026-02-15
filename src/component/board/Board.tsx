@@ -211,17 +211,17 @@ const Board = forwardRef<BoardHandle, BoardProps>(
         // RENDER
         // -------------------
         return (
-            <div className="w-full h-full flex flex-row m-1 gap-4 bg-blue-100">
+            <div className="w-full h-full flex flex-row gap-4 bg-blue-100">
                 <div className="flex flex-row items-center ">
                     <div
-                        className=" flex flex-row"
+                        className=" flex flex-row "
                         onPointerMove={handlePointerMove}
                         onPointerUp={handlePointerUp}
                         style={{ touchAction: "none" }}
                     >
                         <div
                             ref={boardRef}
-                            className={`relative grid grid-cols-8 grid-rows-8 ${boardSize}`}
+                            className={`relative grid grid-cols-8 border-1 border-[#b58863] grid-rows-8 ${boardSize}`}
 
                         >
                             <RightClickCircles circles={circles} boardFlipped={boardFlipped} />
