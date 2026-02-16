@@ -22,16 +22,12 @@ type BoardProps = {
 
 const Board = forwardRef<BoardHandle, BoardProps>(
     ({ board = initialBoard, flipped = false }, ref) => {
-        // -------------------
         // BOARD STATE
-        // -------------------
         const [currentBoard, setCurrentBoard] = useState(board);
         const [boardFlipped, setBoardFlipped] = useState(flipped);
         const [legalMoves, setLegalMoves] = useState<Square[]>([]);
         const [switchLegalMoves, setSwitchLegalMoves] = useState<boolean>(false)
-        // -------------------
         // DRAG STATE
-        // -------------------
         const [draggedPiece, setDraggedPiece] = useState<PieceLetter | null>(null);
         const [fromPos, setFromPos] = useState<Square | "pool" | null>(null);
         const [dragPos, setDragPos] = useState<{ x: number; y: number } | null>(null);
@@ -185,8 +181,6 @@ const Board = forwardRef<BoardHandle, BoardProps>(
 
 
         };
-
-
 
         // -------------------
         // RIGHT CLICK CIRCLES

@@ -1,9 +1,7 @@
-import type { Metadata } from "next";
+import type {Metadata, Viewport} from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {HistoryProvider} from "@/context/HistoryContext";
-import Error from "next/error";
-import GlobalError from "@/app/error";
 
 
 
@@ -11,6 +9,13 @@ const geistSans = Geist({
     variable: "--font-geist-sans",
     subsets: ["latin"],
 });
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: true,
+    themeColor: "#3a3a3a",
+};
 
 const geistMono = Geist_Mono({
     variable: "--font-geist-mono",
@@ -31,10 +36,10 @@ export default function RootLayout(
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-        <div className="flex min-h-screen">
+        <div >
             <HistoryProvider>
-            <main className="flex-1">{children}</main>
-                </HistoryProvider>
+                <main>{children}</main>
+            </HistoryProvider>
         </div>
         </body>
         </html>

@@ -70,9 +70,9 @@ export const pieceSize = `
 `;
 export const boardSize = `
   w-[80vw] h-[80vw]           /* default small screens: fills most width */
-  sm:w-[80vw] sm:h-[80vw]     /* small phones */
-  md:w-[80vw] md:h-[80vw]     /* tablets */
-  lg:w-[40vw] lg:h-[40vw]     /* laptops */
+  sm:w-[70vw] sm:h-[70vw]     /* small phones */
+  md:w-[60vw] md:h-[60vw]     /* tablets */
+  lg:w-[50vw] lg:h-[50vw]     /* laptops */
   xl:w-[40vw] xl:h-[40vw]     /* desktops */
   2xl:w-[40vw] 2xl:h-[40vw]   /* very large screens */
   max-w-[960px] max-h-[960px] /* never exceed 960x960 */
@@ -81,9 +81,9 @@ export const boardSize = `
 
 
 export const SidebarSize = `
-  w-[99vw] h-[28vh]         /* default small screens: 20% of viewport height */
-  sm:w-full sm:h-[28vh]     /* small phones: 20% height */
-  md:w-full md:h-[28vh]     /* tablets: 20% height */
+  w-[99vw] h-[32vh]         /* default small screens: 20% of viewport height */
+  sm:w-full sm:h-[32vh]     /* small phones: 20% height */
+  md:w-full md:h-[32vh]     /* tablets: 20% height */
   lg:w-full lg:h-screen     /* laptops: full height */
   xl:w-full xl:h-screen     /* desktops: full height */
   2xl:w-full 2xl:h-screen   /* very large screens */
@@ -92,9 +92,9 @@ export const SidebarSize = `
 `;
 // hello
 export const SidebarSizeRight = `
-  w-[99vw] h-[calc(25vh)]          /* default small screens: 20% of viewport height */
-  sm:w-full sm:h-[calc(25vh)]      /* small phones: 20% height */
-  md:w-full md:h-[calc(25vh)]     /* tablets: 20% height */
+  w-[99vw] h-[calc(20vh)]          /* default small screens: 20% of viewport height */
+  sm:w-full sm:h-[calc(20vh)]      /* small phones: 20% height */
+  md:w-full md:h-[calc(20vh)]     /* tablets: 20% height */
   lg:w-full lg:h-screen     /* laptops: full height */
   xl:w-full xl:h-screen     /* desktops: full height */
   2xl:w-full 2xl:h-screen   /* very large screens */

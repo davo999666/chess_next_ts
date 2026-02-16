@@ -9,7 +9,7 @@ export default function Home() {
   const boardRef = useRef<BoardHandle>(null);
 
   return (
-      <div className="flex flex-col md:flex-row h-[100dvh] overflow-hidden">
+      <div className="flex flex-col md:flex-row overflow-auto">
         {/* Left sidebar */}
         <Sidebar boardRef={boardRef} />
 
