@@ -5,7 +5,7 @@ import {SidebarSize, SidebarSizeRight} from "@/utils/classNameSize";
 
 const SidebarRight = () => {
     const { history } = useHistory();
-    const bottomRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
     // Convert [row, col] to chess notation
     const posToChess = (pos: [number, number] | "pool" | "removed") => {
@@ -17,13 +17,19 @@ const SidebarRight = () => {
 
     // Auto-scroll when history updates
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        const container = containerRef.current;
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
     }, [history]);
 
     return (
         <div className={`${SidebarSizeRight} bg-[#1e1e2f] p-1 pt-2 text-white flex flex-col rounded-lg`}>
             <div className="w-full h-[30vw] md:h-[20vw] bg-[#1e1e2f] text-white flex flex-col rounded-lg">
-                <div className="flex-1 bg-gray-100 text-black rounded shadow overflow-y-auto p-2">
+                <div
+                    ref={containerRef}
+                    className="flex-1 bg-gray-100 text-black rounded shadow overflow-y-auto p-2"
+                >
                     <h3 className="font-bold mb-2 text-lg text-center">History</h3>
 
                     <ul className="text-sm space-y-1">
@@ -39,9 +45,6 @@ const SidebarRight = () => {
                             </li>
                         ))}
                     </ul>
-
-                    {/* Scroll target */}
-                    <div ref={bottomRef} />
                 </div>
             </div>
         </div>
