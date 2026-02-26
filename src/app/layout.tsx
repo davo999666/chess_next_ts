@@ -5,6 +5,7 @@ import {HistoryProvider} from "@/context/HistoryContext";
 
 
 
+
 const geistSans = Geist({
     variable: "--font-geist-sans",
     subsets: ["latin"],
@@ -25,7 +26,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: "Chess Lili",
     description: "An educational chess platform for learning",
-    icons: {},
+    icons: {
+        icon: "/king-icon.png",
+    },
 };
 
 export default function RootLayout(
