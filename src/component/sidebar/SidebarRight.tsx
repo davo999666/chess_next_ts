@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useHistory } from "@/context/HistoryContext";
 import { letters, numbers } from "@/utils/boardUtils";
-import {SidebarSize, SidebarSizeRight} from "@/utils/classNameSize";
+import {SidebarSizeRight} from "@/utils/classNameSize";
 
 const SidebarRight = () => {
     const { history } = useHistory();
