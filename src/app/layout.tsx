@@ -2,6 +2,7 @@ import type {Metadata, Viewport} from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {HistoryProvider} from "@/context/HistoryContext";
+import { Analytics } from '@vercel/analytics/next';
 
 
 
@@ -41,6 +42,7 @@ export default function RootLayout(
                 <main>{children}</main>
             </HistoryProvider>
         </div>
+        <Analytics />
         </body>
         </html>
     );
