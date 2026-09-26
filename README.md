@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# ♟️ Chess Learning App for Children
 
-First, run the development server:
+🌐 **Live Demo:** [https://chess-lili.vercel.app/](https://chess-lili.vercel.app/)
+
+An interactive chess learning application designed to help **Lilit teach chess to children aged 6–10**.
+
+The application provides visual teaching tools that make it easier to explain chess concepts to young children. The teacher can use the interactive chessboard, **green arrows, circles, and visual markings** to demonstrate piece movements, directions, positions, and chess ideas directly on the board.
+
+Instead of learning chess only through verbal explanations, children can see concepts visually on the chessboard, making lessons easier to understand and more engaging.
+
+## 🎯 Purpose
+
+This application was created as an educational tool for teaching young children the fundamentals of chess.
+
+It is designed to help a teacher:
+
+- Introduce children to the chessboard
+- Explain chess pieces visually
+- Demonstrate how different chess pieces move
+- Draw arrows to show movement and direction
+- Highlight important squares and positions with circles
+- Explain basic chess rules and concepts
+- Make chess lessons more visual and interactive
+- Provide a simple learning environment for young children
+
+## 👧 Target Audience
+
+The application is primarily designed for **children aged 6–10** who are beginning to learn chess.
+
+The interface focuses on making chess concepts simple and understandable for children who may have little or no previous experience with the game.
+
+## ✨ Features
+
+- Interactive chessboard
+- Visual demonstration of chess-piece movements
+- **Green arrows for showing moves and directions**
+- **Green circles for highlighting important squares and positions**
+- Visual tools for explaining chess concepts
+- Teacher-friendly demonstration tools
+- Child-friendly learning experience
+- Interactive approach to teaching chess
+- Responsive web interface
+
+## 🛠️ Technologies
+
+The project is built with modern web technologies:
+
+- **Next.js**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **JavaScript / HTML / CSS**
+
+## 🚀 Getting Started
+
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/davo999666/chess_next_ts.git
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
