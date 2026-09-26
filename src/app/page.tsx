@@ -9,12 +9,12 @@ export default function Home() {
   const boardRef = useRef<BoardHandle>(null);
 
   return (
-      <div className="flex flex-col md:flex-row overflow-auto">
+      <div className="flex flex-col md:flex-row items-center justify-center overflow-auto h-screen bg-blue-100 px-4">
         {/* Left sidebar */}
         <Sidebar boardRef={boardRef} />
 
         {/* Main board */}
-        <main>
+        <main className="flex items-center justify-center min-h-0">
           <Board ref={boardRef} />
         </main>
 
